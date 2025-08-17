@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  was:
+    build: ./was
+    container_name: mcp_was
+    volumes:
+      - ./was:/app
+      - ./db:/app/db
+    networks:
+      - mcp_network
+
+  web:
+    build: ./web
+    container_name: mcp_web
+    ports:
+      - "80:80"
+    depends_on:
+      - was
+    networks:
+      - mcp_network
+
+networks:
+  mcp_network:
+    driver: bridge
